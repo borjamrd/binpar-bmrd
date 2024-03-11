@@ -73,7 +73,7 @@ const reducer = (
 };
 
 export const GlobalProvider = ({ children }: Props) => {
-  const baseUrl = "https://pokeapi.co/api/v2/";
+  const baseUrl = "https://pokeapi.co/api/v2";
 
   const limit = 20;
   const [state, dispatch] = useReducer(reducer, initialState);

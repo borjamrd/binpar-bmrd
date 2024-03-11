@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+
+.dots {
+    background-image: url("./../../public/dot_red.svg"), url("./../../public/dot_red.svg"), url("./../../public/triangle_right.svg"), url("./../../public/triangle_left.svg");
+    background-size: 20rem;
+    background-position: -8% 115%, 108% 115%, 108% -15%, -8% -15%;
+    background-repeat: no-repeat no-repeat;
+    background-attachment: fixed;
+}

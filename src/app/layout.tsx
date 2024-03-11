@@ -21,8 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div >
+      <body className={inter.className + ' bg-[#FFCC00]'}>
+        <div className="dots" >
           <Providers>{children}</Providers>
         </div>
       </body>
