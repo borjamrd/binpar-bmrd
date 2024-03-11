@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + ' bg-[#FFCC00]'}>
+      <body className={inter.className + ' bg-[#FFCC00] w-full min-h-screen'}>
         <div className="dots" >
           <Providers>{children}</Providers>
         </div>

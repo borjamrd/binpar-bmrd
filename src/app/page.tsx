@@ -8,6 +8,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import Loading from "@/components/Loading";
 import { PageTransitionLayout } from "@/components/PageTransitionsLayout";
+import PokemonCard from "@/components/PokemonCard";
 import { useGlobalContext } from "@/context/Global";
 import { Pokemon, TYPE } from "@/models/models";
 import Link from "next/link";
@@ -68,9 +69,9 @@ export default function HomePage() {
               {displaySearchedPokemon()}
             </div>
           )}
-          <div className="grid grid-cols-1 max-w-[320px]">
+          <div className="grid grid-cols-4 grid-flow-row sm:max-w-[350] gap-5">
             {allPokemonData.map((pokemon: Pokemon) => {
-              return <div key={pokemon.id}>Pokemon card</div>;
+              return <PokemonCard key={pokemon.id} pokemon={pokemon} />;;
             })}
           </div>
           <div className="next">
