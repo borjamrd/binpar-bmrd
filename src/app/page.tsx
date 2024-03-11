@@ -46,7 +46,7 @@ export default function HomePage() {
   };
   return (
     <PageTransitionLayout>
-      <main className="flex flex-col justify-between items-center p-10 min-h-screen">
+      <main className="flex flex-col justify-between items-center lg:p-10 p-3 min-h-screen">
         <>
           <form
 
@@ -69,9 +69,9 @@ export default function HomePage() {
               {displaySearchedPokemon()}
             </div>
           )}
-          <div className="grid grid-cols-4 grid-flow-row sm:max-w-[350] gap-5">
+          <div className="grid lg:grid-cols-4 grid-flow-row lg:gap-10 gap-3 grid-cols-2">
             {allPokemonData.map((pokemon: Pokemon) => {
-              return <PokemonCard key={pokemon.id} pokemon={pokemon} />;;
+              return <PokemonCard key={pokemon.id} pokemon={pokemon} color={pokemon.types[0]?.type.name} />;;
             })}
           </div>
           <div className="next">
