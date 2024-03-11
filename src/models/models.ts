@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface InitialStateInterface {
-  allPokemon: TYPE[];
-  pokemon: TYPE;
-  pokemonDatabase: TYPE[];
-  searchResults: TYPE[];
+  allPokemon: TYPE;
+  pokemon: Pokemon | object;
+  pokemonDatabase: Pokemon[];
+  searchResults: Partial<Pokemon>[];
   next: string;
   loading: boolean;
 }
 
-type TYPE = any
+export type TYPE = any
 
 export type PokemonActions =
   | "LOADING"

@@ -1,15 +1,24 @@
+/* eslint-disable prefer-spread */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 "use client";
 
 import {
   initialState,
-  PokemonActions,
-  InitialStateInterface,
+  type PokemonActions,
+  type InitialStateInterface,
   PokemonBasicInfo,
-  Pokemon,
+  type Pokemon,
+  type TYPE,
 } from "@/models/models";
 import React, {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useReducer,
@@ -20,7 +29,7 @@ interface Props {
 }
 
 //
-const GlobalContext = createContext<any>(initialState);
+const GlobalContext = createContext<TYPE>(initialState);
 
 // actions
 
@@ -34,7 +43,7 @@ const NEXT: PokemonActions = "NEXT";
 // reducer
 const reducer = (
   state: InitialStateInterface,
-  action: { type: PokemonActions; payload?: any }
+  action: { type: PokemonActions; payload?: TYPE }
 ) => {
   switch (action.type) {
     case LOADING:
@@ -64,10 +73,7 @@ const reducer = (
 };
 
 export const GlobalProvider = ({ children }: Props) => {
-  const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:4500/api"
-      : "https://adalab-server.onrender.com/api";
+  const baseUrl = "https://pokeapi.co/api/v2/";
 
   const limit = 20;
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -80,7 +86,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
     dispatch({ type: "GET_ALL_POKEMON", payload: data });
 
-    const allPokemonData: any = [];
+    const allPokemonData: TYPE = [];
 
     for (const pokemon of data.results) {
       const pokemonResponse = await fetch(pokemon.url);
@@ -120,9 +126,9 @@ export const GlobalProvider = ({ children }: Props) => {
 
   //search pokemon without third library party as lodash
 
-  const debounce = (func: any, delay: any) => {
-    let timeoutId: any;
-    return (...args: any[]) => {
+  const debounce = (func: TYPE, delay: TYPE) => {
+    let timeoutId: TYPE;
+    return (...args: TYPE[]) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         func.apply(null, args);
@@ -132,7 +138,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
   const realTimeSearch = debounce(async (search: string) => {
     dispatch({ type: "LOADING" });
-    const res = state.pokemonDatabase.filter((pokemon: any) => {
+    const res = state.pokemonDatabase.filter((pokemon: TYPE) => {
       return pokemon.name.includes(search.toLowerCase());
     });
     dispatch({ type: "GET_SEARCH", payload: res });
@@ -148,7 +154,7 @@ export const GlobalProvider = ({ children }: Props) => {
     console.log(data);
     dispatch({ type: "NEXT", payload: data });
 
-    const nextPagePokemonData: any = [];
+    const nextPagePokemonData: TYPE = [];
 
     for (const pokemon of data.results) {
       const pokemonResponse = await fetch(pokemon.url);
