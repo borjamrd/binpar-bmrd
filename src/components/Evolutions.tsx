@@ -10,7 +10,7 @@ export default function Evolutions({
 }) {
   return (
     <div className="hidden md:flex flex-col pl-1.5 gap-0.5 mb-2 border-l-2 border-opacity-50 border-gray-200">
-      <p className="m-0 opacity-60 text-lg max-w-30ch">Evoluciona de:</p>
+      <p className="m-0 opacity-60 text-lg max-w-30ch">Evolution from:</p>
       <h4>{firstLetterToUpperCase(evolutions?.name)}</h4>
     </div>
   );

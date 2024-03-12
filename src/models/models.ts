@@ -3,7 +3,7 @@
 
 export interface InitialStateInterface {
   allPokemon: TYPE;
-  pokemon: Pokemon | object;
+  pokemon: Pokemon | null;
   pokemonDatabase: Pokemon[];
   searchResults: Partial<Pokemon>[];
   next: string;
@@ -23,7 +23,7 @@ export type PokemonActions =
 
 export const initialState: InitialStateInterface = {
   allPokemon: [],
-  pokemon: {},
+  pokemon: null,
   pokemonDatabase: [],
   searchResults: [],
   next: "",
