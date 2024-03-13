@@ -74,7 +74,7 @@ export default function HomePage() {
               return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
             })}
           </div>
-          <div className="next">
+          <div className="mt-5">
             {!loading && allPokemonData.length > 0 ? (
               <div>
                 <button className="flex justify-center items-center mt-4 p-4 bg-white border border-opacity-50 border-gray-200 rounded-lg shadow-md text-gray-700 cursor-pointer" onClick={next}>

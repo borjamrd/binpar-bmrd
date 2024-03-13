@@ -1,8 +1,8 @@
 
 function PokeballSVG() {
   return (
-    <svg className='absolute fill-neutral-400/30 -top-0 -right-20 z-10' xmlns="http://www.w3.org/2000/svg"
-      width="400" height="400"
+    <svg className='absolute fill-neutral-400/30 -top-0 -right-20 z-10 w-64 h-64 lg:w-96 lg:h-96' xmlns="http://www.w3.org/2000/svg"
+
       viewBox="0 0 1024 1024">
       <path id="pkmn-go-menu"
         stroke="none" strokeWidth="3"

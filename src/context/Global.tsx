@@ -58,9 +58,9 @@ const reducer = (
     case GET_POKEMON:
       return { ...state, pokemon: action.payload, loading: false };
     case GET_POKEMON_DATABASE:
-      return { ...state, pokemonDatabase: action.payload, loading: false };
+      return { ...state, pokemonDatabase: action.payload };
     case GET_SEARCH:
-      return { ...state, searchResults: action.payload, loading: false };
+      return { ...state, searchResults: action.payload };
     case NEXT:
       return {
         ...state,
@@ -84,8 +84,6 @@ export const GlobalProvider = ({ children }: Props) => {
     const response = await fetch(`${baseUrl}/pokemon?order_by=id?limit=${limit}`);
     const data = await response.json();
 
-    dispatch({ type: "GET_ALL_POKEMON", payload: data });
-
     const allPokemonData: TYPE = [];
 
     for (const pokemon of data.results) {
@@ -98,6 +96,8 @@ export const GlobalProvider = ({ children }: Props) => {
       allPokemonData.push({ ...pokemonData, ...evolutionData });
     }
     setAllPokemonData(allPokemonData);
+
+    dispatch({ type: "GET_ALL_POKEMON", payload: data });
   };
 
   const getPokemon = async (name: string) => {
@@ -146,7 +146,7 @@ export const GlobalProvider = ({ children }: Props) => {
     dispatch({ type: "LOADING" });
     const res = await fetch(state.next);
     const data = await res.json();
-    dispatch({ type: "NEXT", payload: data });
+
 
     const nextPagePokemonData: TYPE = [];
 
@@ -162,6 +162,8 @@ export const GlobalProvider = ({ children }: Props) => {
 
 
     setAllPokemonData([...allPokemonData, ...nextPagePokemonData]);
+
+    dispatch({ type: "NEXT", payload: data });
 
   };
 

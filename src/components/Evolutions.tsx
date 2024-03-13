@@ -4,14 +4,17 @@ import { type TYPE } from "@/models/models";
 import { firstLetterToUpperCase } from "@/utils/utils";
 export default function Evolutions({
   evolutions,
+  flex
 }: {
-  evolutions: TYPE
+  evolutions: TYPE,
+  flex: 'col' | 'row'
 
 }) {
+
   return (
-    <div className="hidden md:flex flex-col pl-1.5 gap-0.5 mb-2 border-l-2 border-opacity-50 border-gray-200">
-      <p className="m-0 opacity-60 text-lg max-w-30ch">Evolution from:</p>
-      <h4>{firstLetterToUpperCase(evolutions?.name)}</h4>
+    <div className={`hidden md:flex flex-${flex} ${flex === 'col' ? 'gap-0' : 'gap-2'} mb-2 text-sm max-w-30ch text-gray-800 font-semibold rounded-xl`}>
+      <p >Evolution from: </p>
+      <p className="capitalize">{evolutions?.name}</p>
     </div>
   );
 }

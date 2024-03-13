@@ -26,17 +26,17 @@ export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPMzg6tBwAEIAGskJxlQwAAAABJRU5ErkJggg=="
           height={120}
         />)}
-
-        <p className="absolute bottom-0 left-0 p-2 bg-gray-400 bg-opacity-40 text-white font-semibold text-lg rounded-xl">#{pokemon.id}</p>
-
+        <div className="absolute flex items-center gap-2 lg:-bottom-3 bottom-0 left-0 lg:-left-3 backdrop-blur-sm px-2 py-1 bg-gray-400 bg-opacity-40 text-white font-semibold rounded-xl">
+          <p >#{pokemon.id}</p>  <p className="lg:block hidden">{pokemon.generation?.name}</p>
+        </div>
 
         <div className="px-4">
-          <h3 className="text-slate-100">{firstLetterToUpperCase(pokemon.name)}</h3>
+          <h3 className="text-slate-100 group-hover:underline group-hover:underline-offset-4 no-underline capitalize decoration-2">{pokemon.name}</h3>
           <Types types={pokemon.types} />
           {pokemon?.evolves_from_species && (
-            <Evolutions evolutions={pokemon?.evolves_from_species} />
+            <Evolutions flex="col" evolutions={pokemon?.evolves_from_species} />
           )}
-          <p>{pokemon.generation?.name}</p>
+
         </div>
       </div>
 
