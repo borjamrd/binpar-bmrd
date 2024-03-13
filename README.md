@@ -2,11 +2,11 @@
 
 ![Image Alt text](/public/pokeapi.png "Pokeapi")
 
-This project is a small web application developed using Typescript and Next.js. It displays real-time information from the Poké API. Below are the specific requirements of the project:
+This project is a small web application developed using Typescript and Next.js. It displays real-time information from the PokeAPI. Below are the specific requirements of the project:
 
 ## Requirements
 
-- [ ] List of all Pokemon: The main page of the project should display a list of all Pokemon, ordered by their id. For each Pokemon, it should show at least the name, generation, and types. Additional relevant information can also be displayed.
+- [x] List of all Pokemon: The main page of the project should display a list of all Pokemon, ordered by their id. For each Pokemon, it should show at least the name, generation, and types. Additional relevant information can also be displayed.
 
 - [ ] Filters in the list: Two selectors should be added to filter the list by Type and Generation.
 

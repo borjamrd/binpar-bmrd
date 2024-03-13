@@ -8,6 +8,8 @@ export interface InitialStateInterface {
   searchResults: Partial<Pokemon>[];
   next: string;
   loading: boolean;
+  types: { name: string, url: string }[]
+  generations: { name: string, url: string }[]
 }
 
 export type TYPE = any
@@ -19,7 +21,9 @@ export type PokemonActions =
   | "GET_ALL_POKEMON_DATA"
   | "GET_SEARCH"
   | "GET_POKEMON_DATABASE"
-  | "NEXT";
+  | "NEXT"
+  | 'GET_TYPES'
+  | 'GET_GENERATIONS'
 
 export const initialState: InitialStateInterface = {
   allPokemon: [],
@@ -28,6 +32,8 @@ export const initialState: InitialStateInterface = {
   searchResults: [],
   next: "",
   loading: false,
+  types: [],
+  generations: []
 };
 
 export interface PokemonList {

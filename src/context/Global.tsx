@@ -12,7 +12,7 @@ import {
   initialState,
   type PokemonActions,
   type InitialStateInterface,
-  PokemonBasicInfo,
+  type PokemonBasicInfo,
   type Pokemon,
   type TYPE,
 } from "@/models/models";
@@ -39,6 +39,8 @@ const GET_ALL_POKEMON: PokemonActions = "GET_ALL_POKEMON";
 const GET_SEARCH: PokemonActions = "GET_SEARCH";
 const GET_POKEMON_DATABASE: PokemonActions = "GET_POKEMON_DATABASE";
 const NEXT: PokemonActions = "NEXT";
+const GET_TYPES: PokemonActions = 'GET_TYPES'
+const GET_GENERATIONS: PokemonActions = 'GET_GENERATIONS'
 
 // reducer
 const reducer = (
@@ -58,9 +60,13 @@ const reducer = (
     case GET_POKEMON:
       return { ...state, pokemon: action.payload, loading: false };
     case GET_POKEMON_DATABASE:
-      return { ...state, pokemonDatabase: action.payload };
+      return { ...state, pokemonDatabase: action.payload.results };
     case GET_SEARCH:
       return { ...state, searchResults: action.payload };
+    case GET_TYPES:
+      return { ...state, types: action.payload }
+    case GET_GENERATIONS:
+      return { ...state, generations: action.payload }
     case NEXT:
       return {
         ...state,
@@ -78,6 +84,40 @@ export const GlobalProvider = ({ children }: Props) => {
   const limit = 20;
   const [state, dispatch] = useReducer(reducer, initialState);
   const [allPokemonData, setAllPokemonData] = useState<Partial<Pokemon>[]>([]);
+
+
+  const getTypes = async () => {
+
+    dispatch({ type: "LOADING" });
+    const response = await fetch(`${baseUrl}/type`);
+    const data = await response.json();
+    dispatch({ type: "GET_TYPES", payload: data.results });
+  }
+
+  const getPokemonByType = async (type: string) => {
+
+    dispatch({ type: "LOADING" });
+
+    const response = await fetch(`${baseUrl}/type/${type}`);
+    const data = await response.json();
+    const processedUrls: TYPE = {};
+    const allPokemonData = [];
+
+    for (const pokemon of data.pokemon) {
+      const pokemonUrl = pokemon.pokemon.url;
+
+      if (!processedUrls[pokemonUrl]) {
+        processedUrls[pokemonUrl] = true;
+
+        const pokemonResponse = await fetch(pokemonUrl);
+        const pokemonData = await pokemonResponse.json();
+        allPokemonData.push(pokemonData);
+      }
+    }
+    setAllPokemonData(allPokemonData);
+
+    dispatch({ type: "GET_ALL_POKEMON", payload: allPokemonData, });
+  }
 
   const allPokemon = async () => {
     dispatch({ type: "LOADING" });
@@ -97,7 +137,7 @@ export const GlobalProvider = ({ children }: Props) => {
     }
     setAllPokemonData(allPokemonData);
 
-    dispatch({ type: "GET_ALL_POKEMON", payload: data });
+    dispatch({ type: "GET_ALL_POKEMON", payload: data, });
   };
 
   const getPokemon = async (name: string) => {
@@ -117,9 +157,9 @@ export const GlobalProvider = ({ children }: Props) => {
   const getPokemonDatabase = async () => {
     dispatch({ type: "LOADING" });
     const res = await fetch(`${baseUrl}/pokemon?limit=100000&offset=0`);
-    const data = await res.json();
+    const data: PokemonBasicInfo[] = await res.json();
 
-    dispatch({ type: "GET_POKEMON_DATABASE", payload: data.results });
+    dispatch({ type: "GET_POKEMON_DATABASE", payload: data });
   };
 
   const debounce = (func: TYPE, delay: TYPE) => {
@@ -140,7 +180,6 @@ export const GlobalProvider = ({ children }: Props) => {
     dispatch({ type: "GET_SEARCH", payload: res });
   }, 150);
 
-  //next page or load more pokemons
 
   const next = async () => {
     dispatch({ type: "LOADING" });
@@ -163,18 +202,22 @@ export const GlobalProvider = ({ children }: Props) => {
 
     setAllPokemonData([...allPokemonData, ...nextPagePokemonData]);
 
+
     dispatch({ type: "NEXT", payload: data });
 
   };
 
   useEffect(() => {
+    getTypes()
     allPokemon();
     realTimeSearch();
     getPokemonDatabase();
+
+
   }, []);
   return (
     <GlobalContext.Provider
-      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next }}
+      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next, getPokemonByType, allPokemon }}
     >
       {children}
     </GlobalContext.Provider>
