@@ -1,29 +1,44 @@
-# Create T3 App
+# Poke API Project
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+![Pokeapi](/public/pokeapi.png.png)
 
-## What's next? How do I make an app with this?
+This project is a small web application developed using Typescript and Next.js. It displays real-time information from the Poké API. Below are the specific requirements of the project:
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Requirements
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [ ] List of all Pokemon: The main page of the project should display a list of all Pokemon, ordered by their id. For each Pokemon, it should show at least the name, generation, and types. Additional relevant information can also be displayed.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [ ] Filters in the list: Two selectors should be added to filter the list by Type and Generation.
 
-## Learn More
+- [ ] Name search: Implement a real-time text search feature to filter the list by Pokemon names. The search should also include the Pokemon's evolutions. For example, searching for "Pikachu" should also display "Pichu" and "Raichu".
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- [ ] Pokemon information page: Clicking on a Pokemon in the list should navigate to a page displaying detailed information about that Pokemon. This information should include:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+  - [ ] Name
+  - [ ] Image
+  - [ ] Generation
+  - [ ] Types
+  - [ ] Evolutions (with images)
+  - [ ] Stats
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- [ ] Clicking on one of the evolutions should navigate to the page of that Pokemon. The current evolution should be visually marked to indicate that it is the current Pokemon.
 
-## How do I deploy this?
+## Getting Started
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Clone this repository to your local machine and navigate to the project directory.
+
+```shell
+cd binpar-bmrd
+```
+
+Install the dependencies
+
+```shell
+cd binpar-bmrd
+```
+
+Start the development server:
+
+```shell
+cd binpar-bmrd
+```
