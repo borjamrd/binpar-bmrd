@@ -94,24 +94,67 @@ export const GlobalProvider = ({ children }: Props) => {
     dispatch({ type: "GET_TYPES", payload: data.results });
   }
 
+
+  const getGenerations = async () => {
+
+    dispatch({ type: "LOADING" });
+    const response = await fetch(`${baseUrl}/generation`);
+    const data = await response.json();
+    dispatch({ type: "GET_GENERATIONS", payload: data.results });
+  }
+
   const getPokemonByType = async (type: string) => {
 
     dispatch({ type: "LOADING" });
 
     const response = await fetch(`${baseUrl}/type/${type}`);
     const data = await response.json();
+
     const processedUrls: TYPE = {};
     const allPokemonData = [];
 
     for (const pokemon of data.pokemon) {
       const pokemonUrl = pokemon.pokemon.url;
 
+      if (processedUrls[pokemonUrl]) {
+        console.log(pokemonUrl)
+      }
+
       if (!processedUrls[pokemonUrl]) {
         processedUrls[pokemonUrl] = true;
 
         const pokemonResponse = await fetch(pokemonUrl);
         const pokemonData = await pokemonResponse.json();
-        allPokemonData.push(pokemonData);
+        const evolutionChainResponse = await fetch(pokemonData.species.url);
+        const evolutionData = await evolutionChainResponse.json();
+        allPokemonData.push({ ...pokemonData, ...evolutionData });
+      }
+    }
+    setAllPokemonData(allPokemonData);
+
+    dispatch({ type: "GET_ALL_POKEMON", payload: allPokemonData, });
+  }
+
+  const getPokemonByGeneration = async (type: string) => {
+
+    dispatch({ type: "LOADING" });
+
+    const response = await fetch(`${baseUrl}/generation/${type}`);
+    const data = await response.json();
+
+    const pokemonsProccessed: TYPE = {};
+    const allPokemonData = [];
+
+    for (const pokemon of data.pokemon_species) {
+      const pokemonName = pokemon.name;
+
+      if (!pokemonsProccessed[pokemonName]) {
+        pokemonsProccessed[pokemonName] = true;
+        const pokemonResponse = await fetch(`${baseUrl}/pokemon/${pokemonName}`);
+        const pokemonData = await pokemonResponse.json();
+        const evolutionChainResponse = await fetch(pokemonData.species.url);
+        const evolutionData = await evolutionChainResponse.json();
+        allPokemonData.push({ ...pokemonData, ...evolutionData });
       }
     }
     setAllPokemonData(allPokemonData);
@@ -209,6 +252,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
   useEffect(() => {
     getTypes()
+    getGenerations()
     allPokemon();
     realTimeSearch();
     getPokemonDatabase();
@@ -217,7 +261,7 @@ export const GlobalProvider = ({ children }: Props) => {
   }, []);
   return (
     <GlobalContext.Provider
-      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next, getPokemonByType, allPokemon }}
+      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next, getPokemonByType, getPokemonByGeneration, allPokemon }}
     >
       {children}
     </GlobalContext.Provider>
