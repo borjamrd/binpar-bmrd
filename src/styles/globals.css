@@ -21,3 +21,13 @@
         background-position: -2% 105%, 102% 105%, 102% -5%, -2% -5%;
     }
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}

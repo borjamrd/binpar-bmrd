@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 "use client"
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -11,8 +12,10 @@ import { PageTransitionLayout } from "@/components/PageTransitionsLayout";
 import PokemonCard from "@/components/PokemonCard";
 import { useGlobalContext } from "@/context/Global";
 import { Pokemon, TYPE } from "@/models/models";
+import { removeHyphens } from "@/utils/utils";
 import Link from "next/link";
-import { useState, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useState, ReactNode, useEffect, useRef } from "react";
 
 export default function HomePage() {
 
@@ -20,7 +23,28 @@ export default function HomePage() {
     useGlobalContext();
 
   const [search, setSearch] = useState("");
+  const [selectedItem, setSelectedItem] = useState<number>(-1);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [selectedIdx, setSelectedIdx] = useState(-1);
 
+  const router = useRouter()
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedItem(0);
+      setSelectedIdx((prevIdx) => Math.min(prevIdx + 1, searchResults.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedIdx((prevIdx) => Math.max(prevIdx - 1, 0));
+    }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selectedIdx !== -1) {
+        router.push(searchResults[selectedIdx].name);
+      }
+    }
+
+  };
   const handleChange = (e: TYPE) => {
     setSearch(e.target.value);
     realTimeSearch(search);
@@ -31,15 +55,21 @@ export default function HomePage() {
     realTimeSearch(search);
   };
 
+  useEffect(() => {
+    if (selectedItem === 0 && searchInputRef.current) {
+      searchInputRef.current.blur();
+    }
+  }, [selectedItem]);
+
   const displaySearchedPokemon = (): ReactNode => {
-    return searchResults.map((pokemon: Pokemon) => {
+    return searchResults.map((pokemon: Pokemon, index: number) => {
       return (
         <Link
           href={pokemon.name}
-          className="px-2 py-0 text-lg hover: bg-slate-300/30"
+          className={`block px-2 py-1 text-lg hover:bg-slate-300 capitalize ${index === selectedIdx ? 'bg-blue-200' : ''}`}
           key={pokemon.name}
         >
-          {pokemon.name?.slice(0, 1)?.toUpperCase() + pokemon.name?.slice(1)}
+          {removeHyphens(pokemon.name)}
         </Link>
       );
     });
@@ -55,17 +85,19 @@ export default function HomePage() {
           >
             <div className="relative">
               <input
+                ref={searchInputRef}
                 className="px-4 py-5 bg-white border-slate-600 rounded shadow "
                 type="text"
                 value={search}
                 onChange={handleChange}
-                placeholder="Filtra pokemons por nombre"
+                onKeyDown={handleKeyDown}
+                placeholder="Filter pokemon by name"
               />
             </div>
           </form>
           {loading || (allPokemonData.length === 0 && <Loading />)}
           {search && searchResults?.length > 0 && (
-            <div className="absolute h-56 w-56 top-28 left-1/2 overflow-auto transform -translate-x-1/2 z-10 px-4 py-5 rounded bg-white shadow flex flex-col">
+            <div className="absolute h-56 w-56 top-28 left-1/2 overflow-auto p-0.5 transform -translate-x-1/2 z-10 rounded bg-white shadow flex flex-col scrollbar-thin scrollbar-thumb-gray-300">
               {displaySearchedPokemon()}
             </div>
           )}
