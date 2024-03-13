@@ -1,6 +1,6 @@
 # Poke API Project
 
-![Pokeapi](/public/pokeapi.png.png)
+![Image Alt text](/public/pokeapi.png.png "Pokeapi")
 
 This project is a small web application developed using Typescript and Next.js. It displays real-time information from the Poké API. Below are the specific requirements of the project:
 
