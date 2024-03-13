@@ -5,17 +5,19 @@ import Link from "next/link";
 import Types from "./Types";
 
 import { type Pokemon } from "@/models/models";
-import { colorVariants, firstLetterToUpperCase, shadowVariants } from "@/utils/utils";
+import { colorSVGvariants, colorVariants, shadowVariants } from "@/utils/utils";
 import Evolutions from "./Evolutions";
-export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
+export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, color?: string }) {
 
 
-  const color = pokemon?.types[0]?.type.name
+  // const color = pokemon?.types[0]?.type.name
 
 
 
   return (
-    <Link href={pokemon.name} className={`group hover:-translate-x-1 hover:-translate-y-1 duration-300 h-44 rounded-xl ${color && shadowVariants[color]} shadow lg:min-w-64 relative ${color && colorVariants[color]} z-0`}>
+    <Link href={pokemon.name} style={{
+      backgroundColor: color && colorSVGvariants[color]
+    }} className={`group hover:-translate-x-1 hover:-translate-y-1 duration-300 h-44 rounded-xl ${color && shadowVariants[color]} shadow lg:min-w-64 relative  z-0`}>
       <div className="p-2 w-full h-full object-contain rounded relative flex">
         {pokemon.sprites?.other?.dream_world.front_default && (<Image
           src={pokemon.sprites?.other?.dream_world.front_default}

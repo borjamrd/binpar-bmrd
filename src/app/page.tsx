@@ -36,7 +36,7 @@ export default function HomePage() {
       return (
         <Link
           href={pokemon.name}
-          className="px-2 py-0 text-lg"
+          className="px-2 py-0 text-lg hover: bg-slate-300/30"
           key={pokemon.name}
         >
           {pokemon.name?.slice(0, 1)?.toUpperCase() + pokemon.name?.slice(1)}
@@ -53,7 +53,7 @@ export default function HomePage() {
             className="flex justify-center items-center mb-4 relative"
             onSubmit={handleSearch}
           >
-            <div>
+            <div className="relative">
               <input
                 className="px-4 py-5 bg-white border-slate-600 rounded shadow "
                 type="text"
@@ -65,13 +65,13 @@ export default function HomePage() {
           </form>
           {loading || (allPokemonData.length === 0 && <Loading />)}
           {search && searchResults?.length > 0 && (
-            <div className="absolute h-56 w-56 top-1/4 left-1/2 overflow-auto transform translate-x-1/2 z-10 px-4 py-5 rounded bg-white shadow flex flex-col">
+            <div className="absolute h-56 w-56 top-28 left-1/2 overflow-auto transform -translate-x-1/2 z-10 px-4 py-5 rounded bg-white shadow flex flex-col">
               {displaySearchedPokemon()}
             </div>
           )}
           <div className="grid lg:grid-cols-4 grid-flow-row lg:gap-10 gap-3 grid-cols-2">
             {allPokemonData.map((pokemon: Pokemon) => {
-              return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
+              return <PokemonCard key={pokemon.id} pokemon={pokemon} color={pokemon?.types[0]?.type.name} />;
             })}
           </div>
           <div className="mt-5">

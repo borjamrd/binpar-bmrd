@@ -14,7 +14,7 @@ import Stats from "@/components/Stats";
 import Types from "@/components/Types";
 import { useGlobalContext } from "@/context/Global";
 import { type Pokemon, type TYPE } from "@/models/models";
-import { colorVariants, shadowVariants } from "@/utils/utils";
+import { colorSVGvariants, colorVariants, shadowVariants } from "@/utils/utils";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -51,7 +51,11 @@ export default function Page() {
               {/* <span>Back</span> */}
             </button>
 
-            <div style={{ clipPath: 'ellipse(100% 100% at 50% 0%)' }} className={`flex flex-col items-center h-40 lg:h-72 w-full rounded-t-2xl  ${color && colorVariants[color]}`}>
+            <div
+
+
+
+              style={{ clipPath: 'ellipse(100% 100% at 50% 0%)', backgroundColor: color && colorSVGvariants[color] }} className={`flex flex-col items-center h-40 lg:h-72 w-full rounded-t-2xl `}>
 
               <PokeballSVG />
               <h1 className="text-4xl lg:mt-10 mt-5 text-white font-bold mb-2 capitalize">{pokemonItem.name}</h1>
@@ -66,10 +70,10 @@ export default function Page() {
               className="absolute top-20  lg:top-28 lg:w-56 w-28 h-28 lg:h-56 mb-4 z-10"
             />)}
 
-            <div className="flex flex-col justify-center mb-4 p-5">
+            <div className="flex flex-col justify-center mb-4 lg:p-5 p-2">
 
               <Abilities abilities={pokemonItem.abilities} />
-              <div className="flex flex-wrap justify-center mb-4">
+              <div className="flex flex-wrap justify-center mb-2">
 
               </div>
               <div className="flex flex-col gap-2">
@@ -101,7 +105,7 @@ export default function Page() {
                   />
                 )}
               </div>
-              <div className="flex items-center mt-2 gap-2 mx-auto backdrop-blur-sm px-2 py-1 bg-gray-400 bg-opacity-40 text-white font-semibold rounded-xl">
+              <div className="flex items-center gap-2 mx-auto backdrop-blur-sm px-2 py-1 bg-gray-400 bg-opacity-40 text-white font-semibold rounded-xl">
                 <p >#{pokemonItem.id}</p>  <p>{pokemonItem.generation?.name}</p>
               </div>
             </div>
