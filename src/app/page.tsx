@@ -19,7 +19,7 @@ import { useState, ReactNode, useEffect, useRef } from "react";
 
 export default function HomePage() {
 
-  const { allPokemonData, realTimeSearch, searchResults, loading, next, types, generations, getPokemonByType, getPokemonByGeneration, allPokemon } =
+  const { allPokemonData, realTimeSearch, searchResults, loading, next, types, generations, getPokemonByType, getPokemonByGeneration, allPokemon, error } =
     useGlobalContext();
 
   const [search, setSearch] = useState("");
@@ -128,8 +128,8 @@ export default function HomePage() {
           </form>
 
 
-          {loading && <Loading />}
-
+          {loading && !error && <Loading />}
+          {error && <div className="mb-3 p-4 text-red-600 font-semibold">ERROR FETCHING DATA</div>}
           <div className="grid lg:grid-cols-4 grid-flow-row lg:gap-10 gap-3 grid-cols-2">
             {allPokemonData.map((pokemon: Pokemon, index: number) => {
               return <PokemonCard key={index} pokemon={pokemon} color={pokemon?.types[0]?.type.name} />;

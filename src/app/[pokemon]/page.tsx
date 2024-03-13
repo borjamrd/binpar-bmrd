@@ -61,6 +61,7 @@ export default function Page() {
               <h1 className="text-4xl lg:mt-10 mt-5 text-white font-bold mb-2 capitalize">{pokemonItem.name}</h1>
               <Types types={pokemonItem.types} />
 
+
             </div>
             {pokemonItem.sprites?.other?.dream_world.front_default && (<Image
               width={250}
@@ -70,8 +71,14 @@ export default function Page() {
               className="absolute top-20  lg:top-28 lg:w-56 w-28 h-28 lg:h-56 mb-4 z-10"
             />)}
 
-            <div className="flex flex-col justify-center mb-4 lg:p-5 p-2">
+            <div className="flex flex-col justify-center lg:p-5 p-2">
+              <div className="flex justify-center  lg:mt-10 mt-8">
 
+                <Evolutions flex="row"
+                  pokemon={pokemonItem}
+                />
+
+              </div>
               <Abilities abilities={pokemonItem.abilities} />
               <div className="flex flex-wrap justify-center mb-2">
 
@@ -98,13 +105,7 @@ export default function Page() {
 
                 <Stats stats={pokemonItem.stats} />
               </div>
-              <div className="flex justify-center">
-                {pokemonItem?.evolves_from_species && (
-                  <Evolutions flex="row"
-                    evolutions={pokemonItem?.evolves_from_species}
-                  />
-                )}
-              </div>
+
               <div className="flex items-center gap-2 mx-auto backdrop-blur-sm px-2 py-1 bg-gray-400 bg-opacity-40 text-white font-semibold rounded-xl">
                 <p >#{pokemonItem.id}</p>  <p>{pokemonItem.generation?.name}</p>
               </div>

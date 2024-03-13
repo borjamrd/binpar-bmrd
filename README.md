@@ -8,20 +8,20 @@ This project is a small web application developed using Typescript and Next.js. 
 
 - [x] List of all Pokemon: The main page of the project should display a list of all Pokemon, ordered by their id. For each Pokemon, it should show at least the name, generation, and types. Additional relevant information can also be displayed.
 
-- [ ] Filters in the list: Two selectors should be added to filter the list by Type and Generation.
+- [x] Filters in the list: Two selectors should be added to filter the list by Type and Generation.
 
-- [ ] Name search: Implement a real-time text search feature to filter the list by Pokemon names. The search should also include the Pokemon's evolutions. For example, searching for "Pikachu" should also display "Pichu" and "Raichu".
+- [x] Name search: Implement a real-time text search feature to filter the list by Pokemon names. The search should also include the Pokemon's evolutions. For example, searching for "Pikachu" should also display "Pichu" and "Raichu".
 
-- [ ] Pokemon information page: Clicking on a Pokemon in the list should navigate to a page displaying detailed information about that Pokemon. This information should include:
+- [x] Pokemon information page: Clicking on a Pokemon in the list should navigate to a page displaying detailed information about that Pokemon. This information should include:
 
-  - [ ] Name
-  - [ ] Image
-  - [ ] Generation
-  - [ ] Types
-  - [ ] Evolutions (with images)
-  - [ ] Stats
+  - [x] Name
+  - [x] Image
+  - [x] Generation
+  - [x] Types
+  - [x] Evolutions (with images)
+  - [x] Stats
 
-- [ ] Clicking on one of the evolutions should navigate to the page of that Pokemon. The current evolution should be visually marked to indicate that it is the current Pokemon.
+- [x] Clicking on one of the evolutions should navigate to the page of that Pokemon. The current evolution should be visually marked to indicate that it is the current Pokemon.
 
 ## Getting Started
 
@@ -34,11 +34,11 @@ cd binpar-bmrd
 Install the dependencies
 
 ```shell
-cd binpar-bmrd
+npm install
 ```
 
 Start the development server:
 
 ```shell
-cd binpar-bmrd
+npm run dev
 ```

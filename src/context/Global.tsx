@@ -50,6 +50,7 @@ const reducer = (
   switch (action.type) {
     case LOADING:
       return { ...state, loading: true };
+
     case GET_ALL_POKEMON:
       return {
         ...state,
@@ -85,6 +86,8 @@ export const GlobalProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [allPokemonData, setAllPokemonData] = useState<Partial<Pokemon>[]>([]);
 
+  const [error, setError] = useState<boolean>(false)
+
 
   const getTypes = async () => {
 
@@ -104,7 +107,7 @@ export const GlobalProvider = ({ children }: Props) => {
   }
 
   const getPokemonByType = async (type: string) => {
-
+    setError(false)
     dispatch({ type: "LOADING" });
 
     const response = await fetch(`${baseUrl}/type/${type}`);
@@ -125,9 +128,8 @@ export const GlobalProvider = ({ children }: Props) => {
 
         const pokemonResponse = await fetch(pokemonUrl);
         const pokemonData = await pokemonResponse.json();
-        const evolutionChainResponse = await fetch(pokemonData.species.url);
-        const evolutionData = await evolutionChainResponse.json();
-        allPokemonData.push({ ...pokemonData, ...evolutionData });
+
+        allPokemonData.push(pokemonData);
       }
     }
     setAllPokemonData(allPokemonData);
@@ -136,7 +138,7 @@ export const GlobalProvider = ({ children }: Props) => {
   }
 
   const getPokemonByGeneration = async (type: string) => {
-
+    setError(false)
     dispatch({ type: "LOADING" });
 
     const response = await fetch(`${baseUrl}/generation/${type}`);
@@ -150,19 +152,25 @@ export const GlobalProvider = ({ children }: Props) => {
 
       if (!pokemonsProccessed[pokemonName]) {
         pokemonsProccessed[pokemonName] = true;
-        const pokemonResponse = await fetch(`${baseUrl}/pokemon/${pokemonName}`);
-        const pokemonData = await pokemonResponse.json();
-        const evolutionChainResponse = await fetch(pokemonData.species.url);
-        const evolutionData = await evolutionChainResponse.json();
-        allPokemonData.push({ ...pokemonData, ...evolutionData });
+
+        try {
+          const pokemonResponse = await fetch(`${baseUrl}/pokemon/${pokemonName}`)
+          const pokemonData = await pokemonResponse.json();
+
+          allPokemonData.push(pokemonData);
+        } catch (error) {
+          setError(true)
+          throw new Error('Error feching generations')
+        }
+
       }
     }
     setAllPokemonData(allPokemonData);
-
     dispatch({ type: "GET_ALL_POKEMON", payload: allPokemonData, });
   }
 
   const allPokemon = async () => {
+    setError(false)
     dispatch({ type: "LOADING" });
     const response = await fetch(`${baseUrl}/pokemon?order_by=id?limit=${limit}`);
     const data = await response.json();
@@ -173,10 +181,7 @@ export const GlobalProvider = ({ children }: Props) => {
       const pokemonResponse = await fetch(pokemon.url);
       const pokemonData = await pokemonResponse.json();
 
-      const evolutionChainResponse = await fetch(pokemonData.species.url);
-      const evolutionData = await evolutionChainResponse.json();
-
-      allPokemonData.push({ ...pokemonData, ...evolutionData });
+      allPokemonData.push(pokemonData);
     }
     setAllPokemonData(allPokemonData);
 
@@ -184,6 +189,7 @@ export const GlobalProvider = ({ children }: Props) => {
   };
 
   const getPokemon = async (name: string) => {
+    setError(false)
     dispatch({ type: "LOADING" });
     const res = await fetch(`${baseUrl}/pokemon/${name}?order_by=id`);
     const pokemonData = await res.json();
@@ -216,6 +222,7 @@ export const GlobalProvider = ({ children }: Props) => {
   };
 
   const realTimeSearch = debounce(async (search: string) => {
+    setError(false)
     dispatch({ type: "LOADING" });
     const res = state.pokemonDatabase.filter((pokemon: TYPE) => {
       return pokemon.name.includes(search.toLowerCase());
@@ -225,6 +232,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
 
   const next = async () => {
+    setError(false)
     dispatch({ type: "LOADING" });
     const res = await fetch(state.next);
     const data = await res.json();
@@ -236,21 +244,15 @@ export const GlobalProvider = ({ children }: Props) => {
 
       const pokemonResponse = await fetch(pokemon.url);
       const pokemonData = await pokemonResponse.json();
-      const evolutionChainResponse = await fetch(pokemonData.species.url);
-      const evolutionData = await evolutionChainResponse.json();
-
-      nextPagePokemonData.push({ ...pokemonData, ...evolutionData });
+      nextPagePokemonData.push(pokemonData);
     }
-
-
     setAllPokemonData([...allPokemonData, ...nextPagePokemonData]);
-
-
     dispatch({ type: "NEXT", payload: data });
 
   };
 
   useEffect(() => {
+
     getTypes()
     getGenerations()
     allPokemon();
@@ -261,7 +263,7 @@ export const GlobalProvider = ({ children }: Props) => {
   }, []);
   return (
     <GlobalContext.Provider
-      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next, getPokemonByType, getPokemonByGeneration, allPokemon }}
+      value={{ ...state, allPokemonData, getPokemon, realTimeSearch, next, getPokemonByType, getPokemonByGeneration, allPokemon, error }}
     >
       {children}
     </GlobalContext.Provider>

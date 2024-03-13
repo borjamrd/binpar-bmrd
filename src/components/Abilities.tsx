@@ -6,7 +6,7 @@ export default function Abilities({
   abilities: Pokemon["abilities"];
 }) {
   return (
-    <div className="flex gap-2 flex-col items-center lg:mt-10 mt-8">
+    <div className="flex gap-2 flex-col items-center">
       <p className="text-sm text-gray-400 tracking-wide">Abilities:</p>
       <div className="flex flex-row  gap-2 lg:gap-3 mb-2">
 

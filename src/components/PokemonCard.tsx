@@ -5,8 +5,7 @@ import Link from "next/link";
 import Types from "./Types";
 
 import { type Pokemon } from "@/models/models";
-import { colorSVGvariants, colorVariants, shadowVariants } from "@/utils/utils";
-import Evolutions from "./Evolutions";
+import { colorSVGvariants, shadowVariants } from "@/utils/utils";
 export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, color?: string }) {
 
 
@@ -35,9 +34,9 @@ export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, colo
         <div className="px-4">
           <h3 className="text-slate-100 group-hover:underline group-hover:underline-offset-4 no-underline capitalize decoration-2">{pokemon.name}</h3>
           <Types types={pokemon.types} />
-          {pokemon?.evolves_from_species && (
-            <Evolutions flex="col" evolutions={pokemon?.evolves_from_species} />
-          )}
+
+          {/* <Evolutions flex="col" pokemon={pokemon} /> */}
+
 
         </div>
       </div>
