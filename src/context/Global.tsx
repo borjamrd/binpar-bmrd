@@ -223,7 +223,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
   const realTimeSearch = debounce(async (search: string) => {
     setError(false)
-    dispatch({ type: "LOADING" });
+    // dispatch({ type: "LOADING" });
     const res = state.pokemonDatabase.filter((pokemon: TYPE) => {
       return pokemon.name.includes(search.toLowerCase());
     });

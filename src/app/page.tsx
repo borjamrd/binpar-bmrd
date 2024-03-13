@@ -94,7 +94,7 @@ export default function HomePage() {
             />
 
             {search && searchResults?.length > 0 && (
-              <div className="absolute h-56 w-56 lg:top-28 top-12  overflow-auto p-0.5 transform -translate-x-1/2 lg:-translate-x-3/4 z-10 rounded bg-white shadow flex flex-col scrollbar-thin scrollbar-thumb-gray-300">
+              <div className="absolute h-56 w-56 lg:top-28 top-12 overflow-auto p-0.5 transform  lg:-translate-x-3/4 z-10 rounded bg-white shadow flex flex-col scrollbar-thin scrollbar-thumb-gray-300">
                 {displaySearchedPokemon()}
               </div>
             )}
