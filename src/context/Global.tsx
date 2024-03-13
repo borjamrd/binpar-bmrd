@@ -81,7 +81,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
   const allPokemon = async () => {
     dispatch({ type: "LOADING" });
-    const response = await fetch(`${baseUrl}/pokemon?limit=${limit}`);
+    const response = await fetch(`${baseUrl}/pokemon?order_by=id?limit=${limit}`);
     const data = await response.json();
 
     dispatch({ type: "GET_ALL_POKEMON", payload: data });
@@ -102,7 +102,7 @@ export const GlobalProvider = ({ children }: Props) => {
 
   const getPokemon = async (name: string) => {
     dispatch({ type: "LOADING" });
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+    const res = await fetch(`${baseUrl}/pokemon/${name}?order_by=id`);
     const pokemonData = await res.json();
 
     const evolutionChainResponse = await fetch(pokemonData.species.url);
@@ -114,8 +114,6 @@ export const GlobalProvider = ({ children }: Props) => {
     });
   };
 
-  //get all pokemons from database for search
-
   const getPokemonDatabase = async () => {
     dispatch({ type: "LOADING" });
     const res = await fetch(`${baseUrl}/pokemon?limit=100000&offset=0`);
@@ -123,8 +121,6 @@ export const GlobalProvider = ({ children }: Props) => {
 
     dispatch({ type: "GET_POKEMON_DATABASE", payload: data.results });
   };
-
-  //search pokemon without third library party as lodash
 
   const debounce = (func: TYPE, delay: TYPE) => {
     let timeoutId: TYPE;
@@ -150,19 +146,23 @@ export const GlobalProvider = ({ children }: Props) => {
     dispatch({ type: "LOADING" });
     const res = await fetch(state.next);
     const data = await res.json();
-
-    console.log(data);
     dispatch({ type: "NEXT", payload: data });
 
     const nextPagePokemonData: TYPE = [];
 
     for (const pokemon of data.results) {
+
       const pokemonResponse = await fetch(pokemon.url);
       const pokemonData = await pokemonResponse.json();
-      nextPagePokemonData.push(pokemonData);
+      const evolutionChainResponse = await fetch(pokemonData.species.url);
+      const evolutionData = await evolutionChainResponse.json();
+
+      nextPagePokemonData.push({ ...pokemonData, ...evolutionData });
     }
 
+
     setAllPokemonData([...allPokemonData, ...nextPagePokemonData]);
+
   };
 
   useEffect(() => {

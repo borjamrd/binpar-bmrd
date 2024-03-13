@@ -71,7 +71,7 @@ export default function HomePage() {
           )}
           <div className="grid lg:grid-cols-4 grid-flow-row lg:gap-10 gap-3 grid-cols-2">
             {allPokemonData.map((pokemon: Pokemon) => {
-              return <PokemonCard key={pokemon.id} pokemon={pokemon} color={pokemon.types[0]?.type.name} />;
+              return <PokemonCard key={pokemon.id} pokemon={pokemon} />;
             })}
           </div>
           <div className="next">

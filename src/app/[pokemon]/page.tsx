@@ -10,6 +10,7 @@ import Card from "@/components/Card";
 import Evolutions from "@/components/Evolutions";
 import Loading from "@/components/Loading";
 import { PageTransitionLayout } from "@/components/PageTransitionsLayout";
+import PokeballSVG from "@/components/Pokeball";
 import Stats from "@/components/Stats";
 import Types from "@/components/Types";
 import { useGlobalContext } from "@/context/Global";
@@ -44,9 +45,12 @@ export default function Page() {
       <main className="p-4 flex items-center justify-center w-full h-screen">
 
         {!loading && pokemonItem ? (
-          <div className={`flex flex-col items-center justify-center min-w-96 rounded-2xl bg-white lg:min-w-64 relative z-0 ${color && shadowVariants[color]}`}>
+          <div className={`flex flex-col items-center justify-center min-w-96 rounded-2xl bg-white lg:min-w-64 relative overflow-hidden z-0 ${color && shadowVariants[color]}`}>
+
 
             <div style={{ clipPath: 'ellipse(100% 100% at 50% 0%)' }} className={`flex flex-col items-center h-72 w-full rounded-t-2xl  ${color && colorVariants[color]}`}>
+
+              <PokeballSVG />
               <h1 className="text-4xl mt-10 text-white font-bold mb-2 capitalize">{pokemonItem.name}</h1>
               <Types types={pokemonItem.types} />
 
@@ -81,6 +85,7 @@ export default function Page() {
                 </div>
                 <Stats stats={pokemonItem.stats} />
               </div>
+              <p>{pokemonItem.generation?.name}</p>
             </div>
 
 

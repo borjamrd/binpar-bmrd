@@ -7,7 +7,10 @@ import Types from "./Types";
 import { type Pokemon } from "@/models/models";
 import { colorVariants, firstLetterToUpperCase, shadowVariants } from "@/utils/utils";
 import Evolutions from "./Evolutions";
-export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, color?: string }) {
+export default function PokemonCard({ pokemon }: { pokemon: Pokemon }) {
+
+
+  const color = pokemon?.types[0]?.type.name
 
 
 
@@ -19,6 +22,8 @@ export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, colo
           alt={pokemon.name}
           className="lg:-bottom-5 lg:-right-5 -bottom-2 -right-2 absolute min-w-11 max-w-24 max-h-24  lg:min-h-20 lg:min-w-20 lg:max-h-40 lg:max-w-40  group-hover:scale-125 duration-300 z-50"
           width={120}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPMzg6tBwAEIAGskJxlQwAAAABJRU5ErkJggg=="
           height={120}
         />)}
 
@@ -31,6 +36,7 @@ export default function PokemonCard({ pokemon, color }: { pokemon: Pokemon, colo
           {pokemon?.evolves_from_species && (
             <Evolutions evolutions={pokemon?.evolves_from_species} />
           )}
+          <p>{pokemon.generation?.name}</p>
         </div>
       </div>
 
